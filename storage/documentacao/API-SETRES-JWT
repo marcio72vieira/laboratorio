@@ -1,0 +1,337 @@
+Modificações API - SETRES
+0 - Alterara o time zone (app/config/app.php; 'timezone' => 'UTC', para 'timezone' => 'America/Sao_Paulo')
+
+
+1 - Criar campos imagemqrcode e idqrcode do tipo nullable através de uma migration
+	php artisan make:migration add_field_associados_table --table=associados
+	
+	public function up()
+    	{
+        	Schema::table('associados', function (Blueprint $table) {
+            		$table->string('imagemqrcode')->nullable()->after('imagem');
+            		$table->string('idqrcode')->nullable()->after('imagemqrcode');
+        	});
+    	}
+    	
+2 -  Executar a Migration criada acima
+	php artisan migrate
+	
+
+
+3 - Alterar o controller AssociadoController, no método
+	public function salvaretrato(Request $request)
+    {
+        
+
+                // Atualizando apenas o campo image na tabela associados (este campo fica fica vazio na criação do associado)
+                // Associado::where('id', $idassociado)->update(array('imagem' => $path));
+
+                //------INICIO QRCODE
+
+                    // Informação a ser gravada no QRCODE
+                    // $informationqrcode = $nomeassociado;
+                    $informationqrcode = time().$idassociado;
+
+
+                    $options = new QROptions([
+                        'version'    => 5,
+                        'outputType' => QRCode::OUTPUT_IMAGE_PNG,   // see types click over CTRL + OUTPUT_IMAGE_PNG
+                        'eccLevel'   => QRCode::ECC_L,
+                    ]);
+
+                    // invocando uma nova instância de QRCODE
+                    $qrcode = new QRCode($options);
+
+                    // Gerando imagem do qrcode
+                    $imggenerated = $qrcode->render($informationqrcode);
+
+                    //echo "<img src='$imggenerated'/>";
+
+                    // Configurando a imagem a ser gravada na pasta
+                    $imggenerated = str_replace('data:image/png;base64,', '', $imggenerated);
+                    $imggenerated = str_replace(' ', '+', $imggenerated);
+                    $dataQR = base64_decode($imggenerated);
+
+                    // Configurando nome do arquivo e o caminho a ser gravado no banco (na coluna img_qr_code)
+                    $fileQR = "public/fotos/coletor". $idassociado . 'qr.png';
+                    $pathQR = "fotos/coletor". $idassociado . 'qr.png';
+
+                    // Armazenando fisicamente o arquivo na pasta
+                    Storage::put($fileQR, $dataQR);
+
+                //------ FIM QRCODE
+
+                // Atualizando os campos imagem, imagemqrcode e idqrcode na tabela associados (estes campos ficam fica vazios na criação do associado)
+                Associado::where('id', $idassociado)->update(['imagem' => $path, 'imagemqrcode' => $pathQR, 'idqrcode' => $informationqrcode]);
+
+            return  "Foto salva com sucesso!";
+
+        } else {
+
+            return  "Não foi possível salvar a imagem capturada.";
+        }
+    }
+    
+
+4 - Alterar a view: resources/views/admin/associado/show.blade.php
+
+	{{-- fonedois --}}
+		<div class="col-lg-3">
+		    <div class="form-group focused">
+		        <label class="form-control-label" for="fonedois">Telefone 2 (opcional)</label>
+		        <input type="text" id="fonedois" class="form-control" name="fonedois"  placeholder="(99) 9999-9999" value="{{old('fonedois', $associado->fonedois)}}" readonly>
+		    </div>
+		    <h6><strong>Tempo de associado: {{mrc_calc_time($associado->filiacao)}}</strong></h6>
+		</div>
+
+		<div class="col-lg-2" style="text-align: center">
+		    {{-- <img src="{{$associado->imagem}}" width="200" height="150"> modo anterior com dados binários--}}
+		    <img src="{{ asset('storage/'.$associado->imagem) }}" width="200">
+		</div>
+
+		<div class="col-lg-3" style="text-align: center">
+		    {{-- @php $imgqrcode = str_replace('coletor', 'coletorQR', $associado->imagem) @endphp --}}
+		    <img src="{{ asset('storage/'.$associado->imagemqrcode) }}" width="200">
+		</div>
+	
+
+
+5 - Criar o controller da Api:
+	php artisan make:controller Api\\AssociadoController --api
+
+
+######################
+# API AUTENTICAÇÃO  #
+#####################
+1 - Executar o comando:
+	composer require tymon/jwt-auth
+
+2 - Alterar o arquivo composer.json no variável require na linha:
+	"tymon/jwt-auth": "^1.0" para "tymon/jwt-auth": "1.0.2"
+
+3 - Executar o comando
+	composer update
+
+4 - Adicionar no arquivo: /home/marcio/projetoslaravel/setres-aux-catadores/config/app.php
+	/*
+         * Package Service Providers...
+         */
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+5 - Publique os arquivos de configuração executando o comando abaixo no terminal CLI (Irá gerar o um novo arquivo jwt.php no diretório /Config)
+	php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+6 - Gere um chave a partir do comando abaixo em um terminal:
+	php artisan jwt:secret
+	
+7 - Ira gerar uma nova chave no arquivo .env como abaixo:
+	JWT_SECRET=SZYzBr6sIoSH3ALOwQOQBzyr8uzmpqm1HWpY0Yi5QB4vTqVrFRWvgxGXpFMTUabH
+	
+
+8 - Alterar o model User como abaixo:
+	a) acrescentar: use Tymon\JWTAuth\Contracts\JWTSubject;
+	
+	b) alterar: class User extends Authenticatable implements JWTSubject
+	
+	c) acrescentar no final da classe os dois métodos abaixo:
+		     /**
+		     * Get the identifier that will be stored in the subject claim of the JWT.
+		     *
+		     * @return mixed
+		     */
+		    public function getJWTIdentifier()
+		    {
+			return $this->getKey();
+		    }
+
+		    /**
+		     * Return a key value array, containing any custom claims to be added to the JWT.
+		     *
+		     * @return array
+		     */
+		    public function getJWTCustomClaims()
+		    {
+			return [];
+		    }
+		    
+
+
+9 - Alter o arquivo config/auth.php conforme abaixo:
+	'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+
+10 - Criar a controlador de login para API, conforme comando abaixo:
+	php artisan make:controller Api\\AuthController
+
+11 - Copiar o conteúdo abaixo dentro da classe Api\AuthController, conforme abaixo, sem esquecer dos imports
+	
+	namespace App\Http\Controllers\Api;
+
+	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\Auth;
+	use App\Http\Controllers\Controller;
+
+	public function login(Request $request)
+    	{
+		$credentials = $request->only(['email', 'password']);
+
+		if (!$token = Auth::guard('api')->attempt($credentials)) {
+	    		return response()->json(['error' => 'Unauthorized'], 401);
+		}
+
+		return $this->respondWithToken($token);
+    	}
+	    
+
+	 public function me()
+	 {
+		return response()->json(auth('api')->user());
+
+	 }
+
+
+	public function logout()
+	{
+		auth('api')->logout();
+
+		return response()->json(['message' => 'Successfully logged out']);
+	}
+
+
+	protected function respondWithToken($token)
+	{
+		return response()->json([
+		    'access_token' => $token,
+		    'token_type' => 'bearer',
+		    //'expires_in' => auth('api')->factory()->getTTL() * 60
+		    'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
+		]);
+	}
+
+
+
+12 - No arquivo route/api, importar o novo controller criado e utilizar as rotas conforme abaixo:
+     OBS: Só acrescente os middleware depois de criados no próximo passo
+     
+	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\Route;
+	use App\Http\Controllers\Api\AuthController;
+	use App\Http\Controllers\Api\AssociadoController;
+	use App\Models\Associado;
+	
+	
+	Route::post('auth/login', [AuthController::class, 'login']);
+	Route::post('auth/me', [AuthController::class, 'me'])->middleware(['apiJwt']);
+	Route::post('auth/logout', [AuthController::class, 'logout'])->middleware(['apiJwt']);
+
+
+	Route::get('associados', [AssociadoController::class, 'index']);
+	Route::get('associado/{id}', [AssociadoController::class, 'show'])->middleware(['apiJwt']);
+	Route::get('associado/{qrcode}/dados', [AssociadoController::class, 'exibeassociado']);
+
+
+	.....
+
+
+
+13 - Crie um middleware com o comando abaixo:
+	php artisan make:middleware apiProtectedRoute
+
+14 - No middlware criado em /setres-aux-catadores/app/Http/Middleware/apiProtectedRoute.php importar aS classe e extender a classe como abaixo:
+	namespace App\Http\Middleware;
+
+	use Closure;
+	use Exception;
+	use Illuminate\Http\Request;
+	use Tymon\JWTAuth\Facades\JWTAuth;
+	use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+
+
+
+	class apiProtectedRoute extends BaseMiddleware
+
+
+15 -  Substituir o corpo do método handler pelo abaixo:
+
+	try {
+	   $user = JWTAuth::parseToken()->authenticate();
+	} catch (Exception $e) {
+	  
+	   if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+	      return response()->json(['status' => 'Token is Invalid']);
+	   }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
+	      return response()->json(['status' => 'Token is Expired']);
+	   }else{
+	      return response()->json(['status' => 'Authorization Token not found']);
+	   }
+	}
+
+
+16 - Acessar o arquivo app/Http/Kernel.php para dá uma apelido ao middleware criado acima, na vairável: $routeMiddleware[], como abaixo
+
+	...
+	'apiJwt' => \App\Http\Middleware\apiProtectedRoute::class,
+
+17 - Acrescentar o middleware às rotas desejadas no arquivo route/api, conforme abaixo:
+	
+	Route::get('associado/{id}', [AssociadoController::class, 'show'])->middleware(['apiJwt']);
+
+
+
+
+////////////////  INICIO TESTES NO MÉTODO login() em Api/AuthController
+
+/* $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ]; */
+
+
+        /* if (!$token = Auth::attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        } */
+
+	    
+if (!$token = auth('api')->Auth::attempt(['email' => $email, 'password' => $password])($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+
+if (!$token = auth('api')->Auth::attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+////////////////  FIM TESTES NO MÉTODO login() em Api/AuthController
+
+
+
+php artisan config:cache
+php artisan cache:clear
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+composer dump-autoload
+
+
+php artisan migrate:fresh
+php artisan db:seed
+
+php artisan jwt:secret
+
+php artisan 
+
+
+
+
+
+

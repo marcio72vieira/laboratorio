@@ -1,4 +1,0 @@
-1 - git clone https://github.com/marcio72vieira/laboratorio.git -b develop
-2 - composer install
-3 - cp .env.example .env
-4 - composer key:generate
