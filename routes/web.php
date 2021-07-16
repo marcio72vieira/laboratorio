@@ -24,6 +24,27 @@ Route::get('/', function () {
     return view('template/templateadmin');
 });
 
+Route::get('/dashboard', function(){
+    return view('pages/dashboard');
+})->name('dashboard');
+
+Route::get('/tables', function(){
+    return view('pages/tables');
+})->name('tables');
+
+
+Route::get('/blank', function(){
+    return view('pages/blank');
+})->name('blank');
+
+
+Route::get('country-state-city',[CountryStateCityController::class, 'index'])->name('multiselect');
+Route::post('get-states-by-country',[CountryStateCityController::class, 'getState']);
+Route::post('get-cities-by-state',[CountryStateCityController::class, 'getCity']);
+
+
+/*
 Route::get('country-state-city',[CountryStateCityController::class, 'index']);
 Route::post('get-states-by-country',[CountryStateCityController::class, 'getState']);
 Route::post('get-cities-by-state',[CountryStateCityController::class, 'getCity']);
+*/
