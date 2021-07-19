@@ -86,8 +86,17 @@
     <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
+    <!--Plugin jQuery para máscaras de campos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+
+    <!-- Scripts Customizados, criados por mim mesmo ou para configuração de outras bibliotecas e plugins -->
+    <script src="{{asset('template/js/customized/myscripts.js')}}"></script>
+
     <!-- Page level custom scripts -->
+    <!-- Talvez a invocação desse script abaixo não seja necessário -->
     <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
+
 
     <!-- Scripts a serem colocados no final do Conteúdo das páginas quando necessário -->
     @yield('scripts')

@@ -32,6 +32,16 @@
                                     <label for="city">City</label>
                                     <select class="form-control" id="city-dropdown"></select>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="data">Telefone</label>
+                                    <input type="text" class="form-control phone">
+                                </div>
+
+                                 <div class="form-group">
+                                    <label for="cpf">CPF</label>
+                                    <input type="text" class="form-control" id="cpf">
+                                </div>
                             </form>
                         </div>
                     </div>
