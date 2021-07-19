@@ -87,6 +87,7 @@
                 <h6 class="collapse-header">Other Pages:</h6>
                 <a class="collapse-item" href="404.html">404 Page</a>
                 <a class="collapse-item" href="{{route('blank')}}">Blank Page</a>
+                <a class="collapse-item" href="{{route('form')}}">Form</a>
                 <a class="collapse-item" href="{{route('multiselect')}}">Multiselect</a>
             </div>
         </div>

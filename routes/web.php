@@ -37,6 +37,10 @@ Route::get('/blank', function(){
     return view('pages/blank');
 })->name('blank');
 
+Route::get('/form', function(){
+    return view('pages/form');
+})->name('form');
+
 
 Route::get('country-state-city',[CountryStateCityController::class, 'index'])->name('multiselect');
 Route::post('get-states-by-country',[CountryStateCityController::class, 'getState']);
