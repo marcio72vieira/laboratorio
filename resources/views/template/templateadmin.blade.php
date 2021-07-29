@@ -39,7 +39,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                @include('template.topbar')
+                @include('template.topbar', ['search' => false])
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
