@@ -19,7 +19,7 @@ CONFIGURAÇÕES INICIAIS
 
 5 - Alterar a propriedade 'timezone' para 'timezone' => 'America/Sao_Paulo', em config/app.php
 
-6 - Criar o banco de dados no MySQL ou Postgres (talvez) com a colation utff8mb4 
+6 - Criar o banco de dados no MySQL ou Postgres (talvez) com a colation utf8mb4 (mais precisamente utf8mb4-unicode-ci)
 
 7 - No arquivo App/Providers/AppServiceProvider.php acrescentar:
     a) importar: use Illuminate\Support\Facades\Schema
@@ -34,6 +34,16 @@ CONFIGURAÇÕES INICIAIS
 
 10 - Caso sinta necessidade, só se for necessário, altere o namespace da sua aplicação com o comando:
      a) php artisan app:name Setres
-     
 
-   
+
+     
+=============================
+CRIAÇÃO MÓDULO DE LOGIN
+=============================
+
+1 - Criar/Alterar migrations de User com campos conforme necessário
+2 - Executar Migration
+    a) php artisan migrate
+    
+3 - Criar controller de User
+    a) php artisan make:controller Admin/UserController -r (cria o controller com todos os resources na pasta app/Http/Controllers/Admin)
