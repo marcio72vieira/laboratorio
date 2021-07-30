@@ -1,0 +1,39 @@
+=============================
+CONFIGURAÇÕES INICIAIS
+============================
+
+1 - Criar um projeto com o Laravel:
+    composer create-project --prefer-dist laravel/laravel setres-estagio "8.5.*"
+    
+2 - Criar o arquivo .env 
+    a) na raiz do projeto, executar o comando: cp .env.exemple ./.env
+
+3 - Gerar uma chave para o app (projeto)
+    a) php artisan key:generate
+
+4 - Configurar tradução
+    a) obter arquivo de configuração em: https://github.com/Upinside/laravel-pt-BR
+    b) criar pasta resources/lang/pt-BR
+    c) descompactar o arquivo obtido na pasta criada acima
+    d) alterar a propriedade 'locale' para 'locale' => 'pt-br', em config/app.php
+
+5 - Alterar a propriedade 'timezone' para 'timezone' => 'America/Sao_Paulo', em config/app.php
+
+6 - Criar o banco de dados no MySQL ou Postgres (talvez) com a colation utff8mb4 
+
+7 - No arquivo App/Providers/AppServiceProvider.php acrescentar:
+    a) importar: use Illuminate\Support\Facades\Schema
+    b) public function resgister(){ 
+          Schema::defaultStringLength(191);
+       }
+
+8 - Criar uma chave no arquivo .env, como se segue:
+    a) FILESYSTEM_DRIVER=public
+
+9 - Configurar as credenciais do banco de dados no arquivo .env, conforme necessário
+
+10 - Caso sinta necessidade, só se for necessário, altere o namespace da sua aplicação com o comando:
+     a) php artisan app:name Setres
+     
+
+   

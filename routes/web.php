@@ -44,6 +44,11 @@ Route::get('/form', function(){
 })->name('form');
 
 
+Route::get('/login', function(){
+    return view('login');
+})->name('login');
+
+
 Route::get('country-state-city',[CountryStateCityController::class, 'index'])->name('multiselect');
 Route::post('get-states-by-country',[CountryStateCityController::class, 'getState']);
 Route::post('get-cities-by-state',[CountryStateCityController::class, 'getCity']);
