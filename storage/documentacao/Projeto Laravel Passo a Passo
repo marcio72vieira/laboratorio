@@ -47,3 +47,36 @@ CRIAÇÃO MÓDULO DE LOGIN
     
 3 - Criar controller de User
     a) php artisan make:controller Admin/UserController -r (cria o controller com todos os resources na pasta app/Http/Controllers/Admin)
+
+4 - Criar requests User e definir as regras de validação.
+    a) php artisan make:request UserCreateRequest. Alterar o retorno do método authorize desta request para true.
+    b) php artisan make:request UserUpdateRequest. Alterar o retorno do método authorize desta request para true
+    c) Importar os respectivos requests criados e utilizá-los nos respectivos métodos create e update do controller User.
+    
+
+5 - Criar rotas conforme necessário do tipo resource. Utilizar middleware também conforme necessário.
+    a) use App\Http\Controllers\Admin\UserController;
+    b) Route::resource('user', UserController::class);
+
+6 - Criar view index.blade.php para listar usuários usuário;
+7 - Implementar método index do UserCortroller para exibir view index.blade.php, não esquecer de importar modelo User
+    a) use App\Models\User;
+    b) $users = User::all();
+       return view('admin.user.index', compact('users'));
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+=========================
+EXTRAS
+=========================
+1 - Site de Ícones: https://fontawesome.com/v4.7/icons/
+
+
+
