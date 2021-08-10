@@ -63,6 +63,49 @@ CRIAÇÃO MÓDULO DE LOGIN
     a) use App\Models\User;
     b) $users = User::all();
        return view('admin.user.index', compact('users'));
+
+
+==================================
+CRIAÇÃO DE UM MÓDULO GENÉRICO
+==================================
+
+1 - Criar MIGRATIONS do recurso com os campos e seus tipos, bem como seus relacionamentos com outras tabelas, conforme necessário
+    a php artisan make:migration create_recursos_table (obs: coloque o nome do recurso no plural)
+
+2 - Criar o model do recurso
+    a) php artisan make:model Recurso (obs: colocar o nome do model no singular com a primeira letra em maiúscula)
+    b) definir os campos a serem preenchidos na propriedade $fillable = [], para serem preenchido em massa
+    c) definir os relacionametos conforme necessário
+    
+3 - Executar a migration
+    a) php artisan migrate
+       
+4 - Cirar as Requests para o recurso criado, e definir suas validações, conforme necessário
+    a) php artisan make:request RecursoCreateRequest
+    b) php artisan make:request RecursoUpdateRequest 
+
+5 - Criar o controller do Recurso e definir seus métodos conforme necessário, bem como importar classes necessárias
+    a) php artisan make:controller Admin/RecusoController --resource (obs: o parâmetro --resource, criar todos os métodos de um CRUD automaticamente)
+    b) use App\Models\Recurso;
+       use Illuminate\Support\Facades\DB;
+       use App\Http\Requests\RecursoCreateRequest;
+       use App\Http\Requests\RecursoUpdateRequest;
+       use Illuminate\Support\Facades\Validator;
+       use Illuminate\Validation\Rule;
+
+6 - Crie a(s) rota(s) do recurso, conforme necessário
+    a) use App\Http\Controllers\Admin\BairroController;
+    b) Route::prefix('admin')->name('admin.')->group(function() {
+          Route::resource('user', RecursoController::class);
+       )}
+    c) Quando necessário, acrescente o middleware se preciso for
+           b) Route::prefix('admin')->name('admin.')->group(function() {
+          Route::resource('user', RecursoController::class)->middleware(['auth']);
+       )}
+
+7 - Referenciar a rota do recurso no menu de navegação pelo seu nome (->name) conforme como nomeado no arquivo de rotas, quando for o caso
+
+8 - Cirar as views (index.blade, create.blade, edit.blade, show.blade, outras.blade) conforme necessário
        
        
        
@@ -80,6 +123,33 @@ EXTRAS
 2 - Site de imagens de capas svg: https://undraw.co/
 
 
+==================================================
+CAMPOS PARA CADASTRO DE EMPRESA DO SETRES-ESTÁGIO
+==================================================
+$table->string('cnpj');
+$table->string('cnpjcartao');
+$table->string('razaosocial');
+$table->string('nomefantasia');
+$table->string('codigocnae');
+$table->string('banco');
+$table->string('agencia');
+$table->string('contatitularidade');
+$table->string('logradouro');
+$table->string('numero');
+$table->string('complemento');
+$table->string('bairro');
+$table->string('cep');
+$table->string('municipio');
+$table->string('nome');
+$table->string('cargo');
+$table->string('emailpessoal');
+$table->string('celular');
+$table->string('telefoneum');
+$table->string('telefonedois');
+$table->string('emailempresarial');
+$table->string('nomedois');
+$table->string('cargodois');
+$table->string('quantidadeestagiario');
 
 
 
