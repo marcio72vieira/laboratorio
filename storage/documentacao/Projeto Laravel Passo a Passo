@@ -74,13 +74,13 @@ CRIAÇÃO DE UM MÓDULO GENÉRICO
 
 2 - Criar o model do recurso
     a) php artisan make:model Recurso (obs: colocar o nome do model no singular com a primeira letra em maiúscula)
-    b) definir os campos a serem preenchidos na propriedade $fillable = [], para serem preenchido em massa
-    c) definir os relacionametos conforme necessário
+    b) definir os campos a serem preenchidos na propriedade protected $fillable = [], para serem preenchido em massa
+    c) definir os relacionametos conforme necessário e quando preciso
     
 3 - Executar a migration
     a) php artisan migrate
        
-4 - Cirar as Requests para o recurso criado, e definir suas validações, conforme necessário
+4 - Cirar as Requests (para create e update) para o recurso criado, e definir suas validações, conforme necessário
     a) php artisan make:request RecursoCreateRequest
     b) php artisan make:request RecursoUpdateRequest 
 
@@ -140,15 +140,15 @@ $table->string('complemento');
 $table->string('bairro');
 $table->string('cep');
 $table->string('municipio');
-$table->string('nome');
-$table->string('cargo');
+$table->string('titularum');
+$table->string('cargotitularum');
 $table->string('emailpessoal');
 $table->string('celular');
 $table->string('telefoneum');
 $table->string('telefonedois');
 $table->string('emailempresarial');
-$table->string('nomedois');
-$table->string('cargodois');
+$table->string('titulardois');
+$table->string('cargotitulardois');
 $table->string('quantidadeestagiario');
 
 

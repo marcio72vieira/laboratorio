@@ -6,6 +6,8 @@ use App\Http\Controllers\Tutsmaker\CountryStateCityController;
 use App\Http\Controllers\Administracao\PaisController;
 use App\Http\Controllers\Administracao\PostController;
 
+use App\Http\Controllers\ImageController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +55,10 @@ Route::get('/login', function(){
 Route::get('country-state-city',[CountryStateCityController::class, 'index'])->name('multiselect');
 Route::post('get-states-by-country',[CountryStateCityController::class, 'getState']);
 Route::post('get-cities-by-state',[CountryStateCityController::class, 'getCity']);
+
+
+Route::get('images', [ ImageController::class, 'index' ]);
+Route::post('images', [ ImageController::class, 'store' ])->name('images.store');
 
 
 
