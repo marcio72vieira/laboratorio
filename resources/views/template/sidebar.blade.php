@@ -89,6 +89,7 @@
                 <a class="collapse-item" href="{{route('blank')}}">Blank Page</a>
                 <a class="collapse-item" href="{{route('form')}}">Form</a>
                 <a class="collapse-item" href="{{route('multiselect')}}">Multiselect</a>
+                <a class="collapse-item" href="{{route('admin.posts.index')}}">Crud Ajax</a>
             </div>
         </div>
     </li>
