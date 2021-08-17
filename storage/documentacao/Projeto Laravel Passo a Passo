@@ -122,34 +122,20 @@ EXTRAS
 1 - Site de Ícones: https://fontawesome.com/v4.7/icons/
 2 - Site de imagens de capas svg: https://undraw.co/
 
+=======================
+RELACIONAMENTOS
+======================
+1 - Um para Um
+2 - Relação entre Imovel e Endereco
+3 - Um imóvel hasOne(Endereco)
+4 - Um endereco belongsTo(Imovel). A chave estrangeira fica no modelo endereço
 
-==================================================
-CAMPOS PARA CADASTRO DE EMPRESA DO SETRES-ESTÁGIO
-==================================================
-$table->string('cnpj');
-$table->string('cnpjcartao');
-$table->string('razaosocial');
-$table->string('nomefantasia');
-$table->string('codigocnae');
-$table->string('banco');
-$table->string('agencia');
-$table->string('contatitularidade');
-$table->string('logradouro');
-$table->string('numero');
-$table->string('complemento');
-$table->string('bairro');
-$table->string('cep');
-$table->string('municipio');
-$table->string('titularum');
-$table->string('cargotitularum');
-$table->string('emailpessoal');
-$table->string('celular');
-$table->string('telefoneum');
-$table->string('telefonedois');
-$table->string('emailempresarial');
-$table->string('titulardois');
-$table->string('cargotitulardois');
-$table->string('quantidadeestagiario');
+5 - Um para Muitos
+6 - o Dono do relacionamento, NÃO possui chave estrageira, então ele é do tipo: hasMany
+7 - O inverso, ou seja, quem possui a chave estrangeira é do tipo belongsTo
+
+
+
 
 
 
