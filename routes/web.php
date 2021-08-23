@@ -8,6 +8,8 @@ use App\Http\Controllers\Administracao\PostController;
 
 use App\Http\Controllers\ImageController;
 
+use App\Http\Controllers\Administracao\AssociadoController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +38,6 @@ Route::get('/dashboard', function(){
 Route::get('/tables', function(){
     return view('pages/tables');
 })->name('tables');
-
 
 Route::get('/blank', function(){
     return view('pages/blank');
@@ -75,3 +76,15 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('pais', PaisController::class);
     Route::resource('posts', PostController::class);
 });
+
+
+
+/*
+Route::get('/associados', function(){
+    return view('pages/associados');
+})->name('associados');
+*/
+
+
+Route::get('/associados',[AssociadoController::class,'index'])->name('associados');
+Route::get('/getAssociados',[AssociadoController::class,'getAssociados'])->name('getAssociados');
