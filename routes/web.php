@@ -88,3 +88,6 @@ Route::get('/associados', function(){
 
 Route::get('/associados',[AssociadoController::class,'index'])->name('associados');
 Route::get('/getAssociados',[AssociadoController::class,'getAssociados'])->name('getAssociados');
+
+route::get('/associadoshow/{id}',[AssociadoController::class,'associadoshow'])->name('associado.atual.show');
+route::get('/associadoeditar/{id}',[AssociadoController::class,'associadoeditar'])->name('associado.atual.editar');

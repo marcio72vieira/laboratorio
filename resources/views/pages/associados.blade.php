@@ -54,6 +54,36 @@
                     </thead>
                   </table>
                 --}}
+
+                  {{-- --}}
+
+                  <!-- MODAL FormDelete OBS: O id da modal para cada registro tem que ser diferente, senão ele pega apenas o primeiro registro-->
+                  <div class="modal fade" id="formDelete" tabindex="-1" aria-labelledby="formDeleteLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="formDeleteLabel"><strong>Deletar empresa</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>NOME DO ASSOCIADO</h5>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                        <form action="" method="POST" style="display: inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" role="button"> Confirmar</button>
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                  {{-- --}}
+
             </div>
         </div>
     </div>
@@ -77,8 +107,17 @@
                     { data: 'cpf' },
                     { data: 'sexo' },
                     { data: 'racacor' },
+                    { data: 'actions'}
                 ]
             });
+
+
+            $('#modaldelete').on('click', function(event){
+                event.preventDefault();
+                // passar de alguma forma o id do Associado diretaemnte para a rota do formulário juntamente com seu nome para corpo
+                // da modal
+            })
+
          });
     </script>
 @endsection
