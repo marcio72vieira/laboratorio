@@ -55,7 +55,8 @@ class AssociadoController extends Controller
             $racacor = $record->racacor;
             $actionShow = "<a href='".route('associado.atual.show', $id)."' title='exibir'><i class='fas fa-eye text-warning mr-2'></i></a>";
             $actionEdit = "<a href='".route('associado.atual.editar', $id)."' title='editar'><i class='fas fa-edit text-info mr-2'></i></a>";
-            $actionDelete = "<a href='' id='modaldelete' data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
+            //$actionDelete = "<a href='' data-id='".$id."'  data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
+            $actionDelete = "<a href='' class='deleteassociado' data-idassoc='".$id."' data-nomeassoc='".$nome."'  data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
             $actions = $actionShow. " ".$actionEdit. " ".$actionDelete;
             $data_arr[] = array(
                 "id" => $id,
@@ -86,5 +87,10 @@ class AssociadoController extends Controller
     public function associadoeditar($id)
     {
         echo('Mostrando dados do ASSOCIADO PARA EDIÇÃO '.$id);
+    }
+
+    public function associadodeletar($id)
+    {
+        echo ('Mostrando dados do ASSOCIADO para DELEÇÃO '.$id);
     }
 }

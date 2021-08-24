@@ -40,21 +40,6 @@
 
                 </table>
 
-                {{--
-                <table id='empTable' width='100%' border="1" style='border-collapse: collapse;'>
-                    <thead>
-                      <tr>
-                        <td>ID</td>
-                        <td>Nome</td>
-                        <td>CPF</td>
-                        <td>Sexo</td>
-                        <td>Raça / Cor</td>
-                        <td>Ação</td>
-                      </tr>
-                    </thead>
-                  </table>
-                --}}
-
                   {{-- --}}
 
                   <!-- MODAL FormDelete OBS: O id da modal para cada registro tem que ser diferente, senão ele pega apenas o primeiro registro-->
@@ -68,11 +53,11 @@
                         </button>
                         </div>
                         <div class="modal-body">
-                            <h5>NOME DO ASSOCIADO</h5>
+                            <h5 id='h5nome'></h5>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                        <form action="" method="POST" style="display: inline">
+                        <form id="formdelete" action="" method="POST" style="display: inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" role="button"> Confirmar</button>
@@ -111,12 +96,22 @@
                 ]
             });
 
+            $('#empTable').on('click', '.deleteassociado', function(event){
+                var idAssociado = $(this).data('idassoc');
+                var nomeAssociado = $(this).data('nomeassoc');
+                var route = "{{route('associado.atual.deletar',".idAssociado.")}}";
 
-            $('#modaldelete').on('click', function(event){
-                event.preventDefault();
-                // passar de alguma forma o id do Associado diretaemnte para a rota do formulário juntamente com seu nome para corpo
-                // da modal
-            })
+                alert($(this).data('idassoc'));
+                alert($(this).data('nomeassoc'));
+
+                $('#h5nome').text(nomeAssociado);
+                //$('#formdelete').attr('action', '{{route("associado.atual.deletar",'.idAssociado.' )}}');
+                $('#formdelete').attr('action', route);
+            });
+
+            // https://makitweb.com/edit-delete-datatables-record-with-ajax-and-php/
+            // https://makitweb.com/datatables-ajax-pagination-with-search-and-sort-laravel/
+            // https://api.jquery.com/on/
 
          });
     </script>

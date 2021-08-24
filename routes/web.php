@@ -91,3 +91,4 @@ Route::get('/getAssociados',[AssociadoController::class,'getAssociados'])->name(
 
 route::get('/associadoshow/{id}',[AssociadoController::class,'associadoshow'])->name('associado.atual.show');
 route::get('/associadoeditar/{id}',[AssociadoController::class,'associadoeditar'])->name('associado.atual.editar');
+route::delete('/associadodeletar/{id}',[AssociadoController::class,'associadodeletar'])->name('associado.atual.deletar');
