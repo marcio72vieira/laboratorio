@@ -99,19 +99,16 @@
             $('#empTable').on('click', '.deleteassociado', function(event){
                 var idAssociado = $(this).data('idassoc');
                 var nomeAssociado = $(this).data('nomeassoc');
-                var route = "{{route('associado.atual.deletar',".idAssociado.")}}";
+                var route = "{{route('associado.atual.deletar', 'id')}}";
+                    route = route.replace('id', idAssociado);
 
                 alert($(this).data('idassoc'));
                 alert($(this).data('nomeassoc'));
+                alert(route);
 
                 $('#h5nome').text(nomeAssociado);
-                //$('#formdelete').attr('action', '{{route("associado.atual.deletar",'.idAssociado.' )}}');
                 $('#formdelete').attr('action', route);
             });
-
-            // https://makitweb.com/edit-delete-datatables-record-with-ajax-and-php/
-            // https://makitweb.com/datatables-ajax-pagination-with-search-and-sort-laravel/
-            // https://api.jquery.com/on/
 
          });
     </script>
