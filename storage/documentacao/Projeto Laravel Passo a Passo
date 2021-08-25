@@ -135,9 +135,34 @@ RELACIONAMENTOS
 7 - O inverso, ou seja, quem possui a chave estrangeira é do tipo belongsTo
 
 
-======================
-chave github gerada
-=====================
+==================================
+BIBLIOTECA PARA GERAR CSV E EXCEL
+==================================
+// Depois de baixar o Maatwebsite
+// composer require maatwebsite/excel
+// Registar em config/app.php na propriedade provider e alias
+   'providers' => [
+   	\Maatwebsite\Excel\ExcelServiceProvider::class,
+   ]
+   
+   'aliases' => [
+   	'Excel' => \Maatwebsite\Excel\Facades\Excel::class,
+   ]
+
+// php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+// Comando para gerar este export:
+// php artisan make:export ResiduoExport --model=App\Models\Residuo
+
+// Criar o método getResiduos() no model Residuo
+// No model Residuo inserir a Facades DB
+// criar o método heading():array nesta classe (indicando o cabeçalho dos arquivos xlsx e csv)
+// Colocar a "treat" ,WithHeadings no início desta classe
+// importar o model resíduo para esta classe use App\Models\Residuo
+
+// No controle ResidoController, importar: use App\Exports\ResiduoExport;
+// No controle ResidoController, importar: use Excel;
+// criar os métodos relatorioresiduoexcel e relatorioresiduocsv no controller ResiduoController
+
 
 
 
