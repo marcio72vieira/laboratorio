@@ -2,13 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Tutsmaker\CountryStateCityController;
-
 use App\Http\Controllers\Administracao\PaisController;
 use App\Http\Controllers\Administracao\PostController;
-
 use App\Http\Controllers\ImageController;
-
 use App\Http\Controllers\Administracao\AssociadoController;
+
+// CONTROLLERS CATADORES
+use App\Http\Controllers\Catadores\MunicipioController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +77,18 @@ Route::post('get-cities-by-state',[CountryStateCityController::class, 'getCity']
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('pais', PaisController::class);
     Route::resource('posts', PostController::class);
+
+    // ROTAS DO PROJETO CATADORES
+    //Route::resource('municipio', MunicipioController::class);
 });
+
+
+// ROTAS DO PROJETO CATADORES
+Route::prefix('admincat')->name('admincat.')->group(function() {
+
+    Route::resource('municipio', MunicipioController::class);
+});
+
 
 
 
