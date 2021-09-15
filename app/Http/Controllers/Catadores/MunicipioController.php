@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Catadores;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catadores\MunicipioCreateRequest;
@@ -21,7 +21,7 @@ class MunicipioController extends Controller
     {
         $municipios = Municipio::all();
 
-        return view('admin.municipio.index', compact('municipios'));
+        return view('catadores.municipio.index', compact('municipios'));
     }
 
 

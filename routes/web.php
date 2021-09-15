@@ -11,7 +11,6 @@ use App\Http\Controllers\Administracao\AssociadoController;
 use App\Http\Controllers\Catadores\MunicipioController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
