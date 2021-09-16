@@ -3,7 +3,9 @@ $(function(){
     // Configurações do DataTable
     $('#dataTable').dataTable({
         "ordering": true,
+        // Orderna a terceira coluna em ordem decrescente
         "order": [[ 3, "desc" ]],
+        //Oculta uma ou mais colunas da tabela
         "columnDefs": [
             {
                 "targets": [ 2 ],
