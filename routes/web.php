@@ -28,6 +28,10 @@ Route::get('/', function () {
 });
 */
 
+Route::get('/formfront', function () {
+    return view('formfront');
+});
+
 Route::get('/', function () {
     return view('template/templateadmin');
 });
