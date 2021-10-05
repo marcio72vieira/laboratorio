@@ -19,10 +19,69 @@ class MunicipioController extends Controller
 
     public function index()
     {
-        $municipios = Municipio::all();
+        //$municipios = Municipio::all();
+        //return view('catadores.municipio.index', compact('municipios'));
 
-        return view('catadores.municipio.index', compact('municipios'));
+        return view('catadores.municipio.index');
     }
+
+    /* AJAX request */
+    public function getMunicipios(Request $request){
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        // Total records
+        $totalRecords = Municipio::select('count(*) as allcount')->count();
+        $totalRecordswithFilter = Municipio::select('count(*) as allcount')->where('nome', 'like', '%' .$searchValue . '%')->count();
+
+        // Fetch records
+        $records = Municipio::orderBy($columnName,$columnSortOrder)
+        ->where('municipios.nome', 'like', '%' .$searchValue . '%')
+        ->select('municipios.*')
+        ->skip($start)
+        ->take($rowperpage)
+        ->get();
+
+        $data_arr = array();
+
+        foreach($records as $record){
+            $id = $record->id;
+            $nome = $record->nome;
+            $actionShow = "<a href='".route('admincat.municipio.show', $id)."' title='exibir'><i class='fas fa-eye text-warning mr-2'></i></a>";
+            $actionEdit = "<a href='".route('admincat.municipio.edit', $id)."' title='editar'><i class='fas fa-edit text-info mr-2'></i></a>";
+            $actionDelete = "<a href='' class='deletemunicipio' data-idmunicipio='".$id."' data-nomemunicipio='".$nome."'  data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
+            $actions = $actionShow. " ".$actionEdit. " ".$actionDelete;
+            $data_arr[] = array(
+                "id" => $id,
+                "nome" => $nome,
+                "actions" => $actions,
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        echo json_encode($response);
+        exit;
+    }
+
 
 
     public function create()

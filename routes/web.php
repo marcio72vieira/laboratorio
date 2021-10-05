@@ -91,6 +91,7 @@ Route::prefix('admincat')->name('admincat.')->group(function() {
 
     Route::resource('municipio', MunicipioController::class);
 });
+Route::get('admincat/getMunicipios',[MunicipioController::class,'getMunicipios'])->name('admincat.getMunicipios');
 
 
 

@@ -32,11 +32,12 @@ class AssociadoController extends Controller
 
         // Total records
         $totalRecords = Associado::select('count(*) as allcount')->count();
-        $totalRecordswithFilter = Associado::select('count(*) as allcount')->where('nome', 'like', '%' .$searchValue . '%')->count();
+        $totalRecordswithFilter = Associado::select('count(*) as allcount')->where('nome', 'like', '%' .$searchValue . '%')->orWhere('cpf', 'like', '%' .$searchValue . '%')->count();
 
         // Fetch records
         $records = Associado::orderBy($columnName,$columnSortOrder)
         ->where('associados.nome', 'like', '%' .$searchValue . '%')
+        ->orWhere('associados.cpf', 'like', '%' .$searchValue . '%')
         ->select('associados.*')
         ->skip($start)
         ->take($rowperpage)
