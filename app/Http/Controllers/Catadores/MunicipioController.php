@@ -19,9 +19,7 @@ class MunicipioController extends Controller
 
     public function index()
     {
-        //$municipios = Municipio::all();
-        //return view('catadores.municipio.index', compact('municipios'));
-
+        //$municipios = Municipio::all(); //return view('catadores.municipio.index', compact('municipios'));
         return view('catadores.municipio.index');
     }
 
@@ -58,12 +56,16 @@ class MunicipioController extends Controller
         $data_arr = array();
 
         foreach($records as $record){
+            // campos a serem exibidos
             $id = $record->id;
             $nome = $record->nome;
+
+            // ações
             $actionShow = "<a href='".route('admincat.municipio.show', $id)."' title='exibir'><i class='fas fa-eye text-warning mr-2'></i></a>";
             $actionEdit = "<a href='".route('admincat.municipio.edit', $id)."' title='editar'><i class='fas fa-edit text-info mr-2'></i></a>";
             $actionDelete = "<a href='' class='deletemunicipio' data-idmunicipio='".$id."' data-nomemunicipio='".$nome."'  data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
             $actions = $actionShow. " ".$actionEdit. " ".$actionDelete;
+
             $data_arr[] = array(
                 "id" => $id,
                 "nome" => $nome,
@@ -139,13 +141,13 @@ class MunicipioController extends Controller
 
     public function destroy($id, Request $request)
     {
-        if(Gate::authorize('adm')){
-            Municipio::destroy($id);
 
-            $request->session()->flash('sucesso', 'Registro excluído com sucesso!');
+        Municipio::destroy($id);
 
-            return redirect()->route('admin.municipio.index');
-        }
+        $request->session()->flash('sucesso', 'Registro excluído com sucesso!');
+
+        return redirect()->route('admincat.municipio.index');
+
     }
 
 
