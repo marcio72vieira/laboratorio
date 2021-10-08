@@ -1,8 +1,12 @@
-@extends('template.layoutmaster')
+@extends('template.templateadmin')
 
-@section('conteudo-principal')
+@section('content-page')
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Gerenciar / Municípios / Exibir</h1>
+    <h1 class="h5 mb-4 text-gray-800"><strong>Catadores / Municipios / exibir</strong></h1>
 
     <div class="row">
 
@@ -34,7 +38,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <a class="btn btn-primary" href="{{route('admin.municipio.index')}}" role="button">
+                                    <a class="btn btn-primary" href="{{route('admincat.municipio.index')}}" role="button">
                                         <i class="fas fa-undo-alt"></i>
                                         Retornar</a>
                                 </div>
@@ -49,5 +53,6 @@
         </div>
 
     </div>
+</div>
 
 @endsection

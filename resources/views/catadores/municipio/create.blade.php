@@ -1,8 +1,12 @@
-@extends('template.layoutmaster')
+@extends('template.templateadmin')
 
-@section('conteudo-principal')
+@section('content-page')
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Gerenciar / Municípios / Cadastrar</h1>
+    <h1 class="h5 mb-4 text-gray-800"><strong>Catadores / Municipios / cadastro</strong></h1>
 
     <div class="row">
 
@@ -13,13 +17,13 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
                         Municípios<br>
-                        <span class="small text-secondary">Campo marcado com * é de preenchimento obrigatório!</span>
+                        <span class="small text-secondary">Campo(s) marcado(s) com * é de preenchimento obrigatório!</span>
                     </h6>
                 </div>
 
                 <div class="card-body">
 
-                    <form action="{{route('admin.municipio.store')}}" method="POST" autocomplete="off">
+                    <form action="{{route('admincat.municipio.store')}}" method="POST" autocomplete="off">
                         @csrf
 
                         <div class="pl-lg-4">
@@ -40,7 +44,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <a class="btn btn-primary" href="{{route('admin.municipio.index')}}" role="button">Cancelar</a>
+                                    <a class="btn btn-primary" href="{{route('admincat.municipio.index')}}" role="button">Cancelar</a>
                                     <button type="submit" class="btn btn-primary" style="width: 95px;"> Salvar </button>
                                 </div>
                             </div>
@@ -55,5 +59,6 @@
 
     </div>
 
+</div>
 @endsection
 

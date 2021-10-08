@@ -88,7 +88,7 @@ class MunicipioController extends Controller
 
     public function create()
     {
-        return view('admin.municipio.create');
+        return view('catadores.municipio.create');
     }
 
 
@@ -98,7 +98,7 @@ class MunicipioController extends Controller
 
         $request->session()->flash('sucesso', 'Registro incluído com sucesso!');
 
-        return redirect()->route('admin.municipio.index');
+        return redirect()->route('admincat.municipio.index');
     }
 
 
@@ -106,7 +106,7 @@ class MunicipioController extends Controller
     {
         $municipio = Municipio::find($id);
 
-        return view('admin.municipio.show', compact('municipio'));
+        return view('catadores.municipio.show', compact('municipio'));
     }
 
 
@@ -114,7 +114,7 @@ class MunicipioController extends Controller
     {
         $municipio = Municipio::find($id);
 
-        return view('admin.municipio.edit', compact('municipio'));
+        return view('catadores.municipio.edit', compact('municipio'));
     }
 
 
@@ -135,7 +135,7 @@ class MunicipioController extends Controller
 
         $request->session()->flash('sucesso', 'Registro atualizado com sucesso!');
 
-        return redirect()->route('admin.municipio.index');
+        return redirect()->route('admincat.municipio.index');
     }
 
 

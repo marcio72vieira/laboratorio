@@ -1,8 +1,12 @@
-@extends('template.layoutmaster')
+@extends('template.templateadmin')
 
-@section('conteudo-principal')
+@section('content-page')
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Gerenciar / Municípios / Editar</h1>
+    <h1 class="h5 mb-4 text-gray-800"><strong>Catadores / Municipios / editar</strong></h1>
 
     <div class="row">
 
@@ -19,11 +23,9 @@
 
                 <div class="card-body">
 
-                    <form action="{{route('admin.municipio.update', $municipio->id )}}" method="POST" autocomplete="off">
+                    <form action="{{route('admincat.municipio.update', $municipio->id )}}" method="POST" autocomplete="off">
                         @csrf
                         @method('PUT')
-
-
 
                         <div class="pl-lg-4">
                             <div class="row">
@@ -43,7 +45,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <a class="btn btn-primary" href="{{route('admin.municipio.index')}}" role="button">Cancelar</a>
+                                    <a class="btn btn-primary" href="{{route('admincat.municipio.index')}}" role="button">Cancelar</a>
                                     <button type="submit" class="btn btn-primary" style="width: 95px;"> Salvar </button>
                                 </div>
                             </div>
@@ -57,5 +59,5 @@
         </div>
 
     </div>
-
+</div>
 @endsection

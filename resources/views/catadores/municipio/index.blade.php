@@ -10,7 +10,7 @@
         {{-- <h6 class="m-0 font-weight-bold text-primary">Relação de Municípios</h6> --}}
         <a class="btn btn-primary" href="{{route('admincat.municipio.create')}}" role="button" style="margin-bottom: 10px">
             <i class="fas fa-plus-circle"></i>
-            Adicionar
+            Novo
         </a>
 
         @if(session('sucesso'))
