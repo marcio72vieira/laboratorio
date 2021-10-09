@@ -5,10 +5,10 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <h5><strong>MUNICÍPIOS</strong></h5>
+        <h5><strong>ASSOCIADOS</strong></h5>
 
-        {{-- <h6 class="m-0 font-weight-bold text-primary">Relação de Municípios</h6> --}}
-        <a class="btn btn-primary" href="{{route('admincat.municipio.create')}}" role="button" style="margin-bottom: 10px">
+        {{-- <h6 class="m-0 font-weight-bold text-primary">Relação de Associados</h6> --}}
+        <a class="btn btn-primary" href="{{route('admincat.associado.create')}}" role="button" style="margin-bottom: 10px">
             <i class="fas fa-plus-circle"></i>
             Novo
         </a>
@@ -32,6 +32,9 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Sexo</th>
+                                <th>Raça / Cor</th>
                                 <th>Ação</th>
                             </tr>
                         </thead>
@@ -39,6 +42,9 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Sexo</th>
+                                <th>Raça / Cor</th>
                                 <th>Ação</th>
                             </tr>
                         </tfoot>
@@ -49,7 +55,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="formDeleteLabel"><strong>Deletar Município</strong></h5>
+                                    <h5 class="modal-title" id="formDeleteLabel"><strong>Deletar Associado</strong></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -84,10 +90,13 @@
             $('#empTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{route('admincat.getMunicipios')}}", // Preenche a tabela automaticamente, a partir de uma requisição Ajax (pela rota nomeada)
+                ajax: "{{route('admincat.getAssociados')}}", // Preenche a tabela automaticamente, a partir de uma requisição Ajax (pela rota nomeada)
                 columns: [
                     { data: 'id' },
                     { data: 'nome' },
+                    { data: 'cpf' },
+                    { data: 'sexo' },
+                    { data: 'racacor' },
                     { data: 'actions'}
                 ],
                 language: {
@@ -106,22 +115,22 @@
 
             });
 
-            // No script abaixo, uma função é disparada quando o usuário clicar exatamente [on('click', '.deletemunicipio')] em cima do ícone
-            // deletar (definido como um botão no controller: MunicipioController) cuja a classe está definida como ".deletarmunicipio".
-            // Disparada esta função o id e o nome do municipio são recuperados através dos dados armazenados nas propriedades
-            // "data-idassoc" e "data-nomeassoc", do mesmo ícone de botão deletar também definido no controller MunicipioController.
-            // A "route" é uma string completa que possui o nome da rota juntamente com o id do municipio. Infelizmente não tem
+            // No script abaixo, uma função é disparada quando o usuário clicar exatamente [on('click', '.deleteassociado')] em cima do ícone
+            // deletar (definido como um botão no controller: AssociadoController) cuja a classe está definida como ".deletarassociado".
+            // Disparada esta função o id e o nome do associado são recuperados através dos dados armazenados nas propriedades
+            // "data-idassoc" e "data-nomeassoc", do mesmo ícone de botão deletar também definido no controller AssociadoController.
+            // A "route" é uma string completa que possui o nome da rota juntamente com o id do associado. Infelizmente não tem
             // como referenciar uma variável javascript em um script PHP(Laravel), por isso a necessidade de fazeer esse junção
-            // com o recurso: route = route.replace('id', idmunicipio);
-            $('#empTable').on('click', '.deletemunicipio', function(event){
-                var idMunicipio = $(this).data('idmunicipio');
-                var nomeMunicipio = $(this).data('nomemunicipio');
-                var route = "{{route('admincat.municipio.destroy', 'id')}}";
-                    route = route.replace('id', idMunicipio);
+            // com o recurso: route = route.replace('id', idassociado);
+            $('#empTable').on('click', '.deleteassociado', function(event){
+                var idAssociado = $(this).data('idassociado');
+                var nomeAssociado = $(this).data('nomeassociado');
+                var route = "{{route('admincat.associado.destroy', 'id')}}";
+                    route = route.replace('id', idAssociado);
 
-                // alert($(this).data('idmunicipio')); // alert($(this).data('nomemunicipio')); // alert(route);
+                // alert($(this).data('idassociado')); // alert($(this).data('nomeassociado')); // alert(route);
 
-                $('#h5nome').text(nomeMunicipio);
+                $('#h5nome').text(nomeAssociado);
                 $('#formdelete').attr('action', route);
             });
 

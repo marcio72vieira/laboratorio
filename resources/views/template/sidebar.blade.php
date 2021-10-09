@@ -153,6 +153,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Entidades:</h6>
                 <a class="collapse-item" href="{{route('admincat.municipio.index')}}">Municípios</a>
+                <a class="collapse-item" href="{{route('admincat.associado.index')}}">Associados</a>
             </div>
         </div>
     </li>

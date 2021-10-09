@@ -23,7 +23,11 @@ class MunicipioController extends Controller
         return view('catadores.municipio.index');
     }
 
-    /* AJAX request */
+    /*
+        AJAX request.
+        Este método é executado automaticamente pela linha: ajax: "{{route('admincat.getMunicipios')}}", que
+        se encontra no script da view: catadores.municipio.index
+    */
     public function getMunicipios(Request $request){
 
         ## Read value

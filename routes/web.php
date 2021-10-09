@@ -5,10 +5,15 @@ use App\Http\Controllers\Tutsmaker\CountryStateCityController;
 use App\Http\Controllers\Administracao\PaisController;
 use App\Http\Controllers\Administracao\PostController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\Administracao\AssociadoController;
+//use App\Http\Controllers\Administracao\AssociadoController;
+
+
 
 // CONTROLLERS CATADORES
 use App\Http\Controllers\Catadores\MunicipioController;
+use App\Http\Controllers\Catadores\AssociadoController;
+
+
 
 
 /*
@@ -86,12 +91,18 @@ Route::prefix('admin')->name('admin.')->group(function() {
 });
 
 
-// ROTAS DO PROJETO CATADORES
+// ROTAS DO MÓDULO CATADORES
 Route::prefix('admincat')->name('admincat.')->group(function() {
 
+    // Municipios
     Route::resource('municipio', MunicipioController::class);
+    Route::get('getMunicipios',[MunicipioController::class,'getMunicipios'])->name('getMunicipios');
+
+    // Associados
+    Route::resource('associado', AssociadoController::class);
+    Route::get('getAssociados',[AssociadoController::class,'getAssociados'])->name('getAssociados');
 });
-Route::get('admincat/getMunicipios',[MunicipioController::class,'getMunicipios'])->name('admincat.getMunicipios');
+//Route::get('admincat/getMunicipios',[MunicipioController::class,'getMunicipios'])->name('admincat.getMunicipios');
 
 
 
