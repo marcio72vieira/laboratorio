@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Catadores;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Municipio;
+use App\Models\Area;
+use App\Models\Bairro;
+use App\Models\Companhia;
 use App\Models\Associado;
 
 class AssociadoController extends Controller
@@ -85,7 +89,13 @@ class AssociadoController extends Controller
 
     public function create()
     {
-        //
+        $companhias = Companhia::orderBy('nome', 'ASC')->get();
+        $areas = Area::orderBy('nome', 'ASC')->get();
+        $bairros = Bairro::orderBy('nome', 'ASC')->get();
+        $municipios = Municipio::orderBy('nome', 'ASC')->get();
+
+        return view('catadores.associado.create', compact('companhias','areas','bairros','municipios'));
+
     }
 
 
