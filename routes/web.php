@@ -10,6 +10,7 @@ use App\Http\Controllers\ImageController;
 
 
 // CONTROLLERS CATADORES
+use App\Http\Controllers\Catadores\ChartJsController;
 use App\Http\Controllers\Catadores\MunicipioController;
 use App\Http\Controllers\Catadores\AssociadoController;
 
@@ -93,6 +94,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 // ROTAS DO MÓDULO CATADORES
 Route::prefix('admincat')->name('admincat.')->group(function() {
+
+    // ChartJS
+    Route::get('chartjs', [ChartJsController::class, 'index'])->name('chartjs.index');
 
     // Municipios
     Route::resource('municipio', MunicipioController::class);
