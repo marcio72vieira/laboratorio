@@ -10,6 +10,9 @@ use App\Models\Bairro;
 use App\Models\Companhia;
 use App\Models\Associado;
 
+use Illuminate\Support\Facades\DB;
+
+
 class AssociadoController extends Controller
 {
 
@@ -17,7 +20,95 @@ class AssociadoController extends Controller
         return view('catadores.associado.index');
     }
 
-    /* AJAX request */
+    /* AJAX request COM TABELAS ASSOCIADAS (associados e companhias) */
+    public function getAssociados(Request $request){
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        // Total records
+        $totalRecords = Associado::select('count(*) as allcount')->count();
+        //$totalRecordswithFilter = Associado::select('count(*) as allcount')->where('nome', 'like', '%' .$searchValue . '%')->orWhere('cpf', 'like', '%' .$searchValue . '%')->orWhere('racacor', 'like', '%' .$searchValue . '%')->count();
+
+        $totalRecordswithFilter = DB::table('associados')
+            ->join('companhias', 'companhias.id', '=', 'associados.companhia_id')
+            ->select('count(*) as allcount')
+            ->where('associados.nome', 'like', '%' .$searchValue . '%')
+            ->orWhere('associados.cpf', 'like', '%' .$searchValue . '%')
+            ->orWhere('associados.racacor', 'like', '%' .$searchValue . '%')
+            ->orWhere('companhias.nome', 'like', '%' . $searchValue . '%' )
+            ->count();
+
+        // Fetch records
+        //$records = Associado::orderBy($columnName,$columnSortOrder)
+        $records = DB::table('associados')
+        ->join('companhias', 'companhias.id', '=', 'associados.companhia_id')
+        ->select('associados.id', 'associados.nome', 'associados.cpf', 'associados.sexo', 'associados.racacor', 'companhias.nome AS companhianome')
+        ->where('associados.nome', 'like', '%' .$searchValue . '%')
+        ->orWhere('associados.cpf', 'like', '%' .$searchValue . '%')
+        ->orWhere('associados.racacor', 'like', '%' .$searchValue . '%')
+        ->orWhere('companhias.nome', 'like', '%' .$searchValue . '%')
+        ->orderBy($columnName,$columnSortOrder)
+        //->select('associados.*')
+        ->skip($start)
+        ->take($rowperpage)
+        ->get();
+
+        $data_arr = array();
+
+        foreach($records as $record){
+            // Campos
+            $id = $record->id;
+            $nome = $record->nome;
+            $cpf = $record->cpf;
+            $sexo = $record->sexo;
+            $racacor = $record->racacor;
+            $companhia = $record->companhianome;
+
+            // Ações
+            $actionShow = "<a href='".route('associado.atual.show', $id)."' title='exibir'><i class='fas fa-eye text-warning mr-2'></i></a>";
+            $actionEdit = "<a href='".route('associado.atual.editar', $id)."' title='editar'><i class='fas fa-edit text-info mr-2'></i></a>";
+            $actionDelete = "<a href='' class='deleteassociado' data-idassociado='".$id."' data-nomeassociado='".$nome."'  data-toggle='modal' data-target='#formDelete' title='excluir'><i class='fas fa-trash text-danger mr-2'></i></a>";
+            $actions = $actionShow. " ".$actionEdit. " ".$actionDelete;
+
+            $data_arr[] = array(
+                "id" => $id,
+                "nome" => $nome,
+                "cpf" => $cpf,
+                "sexo" => $sexo,
+                "racacor" => $racacor,
+                "companhia" => $companhia,
+                "actions" => $actions,
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
+
+        echo json_encode($response);
+        exit;
+    }
+
+
+
+
+    /* AJAX request TABELA ÚNICA (associados)
     public function getAssociados(Request $request){
 
         ## Read value
@@ -39,11 +130,13 @@ class AssociadoController extends Controller
         $totalRecords = Associado::select('count(*) as allcount')->count();
         $totalRecordswithFilter = Associado::select('count(*) as allcount')->where('nome', 'like', '%' .$searchValue . '%')->orWhere('cpf', 'like', '%' .$searchValue . '%')->orWhere('racacor', 'like', '%' .$searchValue . '%')->count();
 
+
         // Fetch records
         $records = Associado::orderBy($columnName,$columnSortOrder)
-        ->where('associados.nome', 'like', '%' .$searchValue . '%')
-        ->orWhere('associados.cpf', 'like', '%' .$searchValue . '%')
-        ->orWhere('associados.racacor', 'like', '%' .$searchValue . '%')
+        ->where('nome', 'like', '%' .$searchValue . '%')
+        ->orWhere('cpf', 'like', '%' .$searchValue . '%')
+        ->orWhere('racacor', 'like', '%' .$searchValue . '%')
+        ->orderBy($columnName,$columnSortOrder)
         ->select('associados.*')
         ->skip($start)
         ->take($rowperpage)
@@ -58,6 +151,7 @@ class AssociadoController extends Controller
             $cpf = $record->cpf;
             $sexo = $record->sexo;
             $racacor = $record->racacor;
+            $companhia = $record->companhia_id;
 
             // Ações
             $actionShow = "<a href='".route('associado.atual.show', $id)."' title='exibir'><i class='fas fa-eye text-warning mr-2'></i></a>";
@@ -71,6 +165,7 @@ class AssociadoController extends Controller
                 "cpf" => $cpf,
                 "sexo" => $sexo,
                 "racacor" => $racacor,
+                "companhia" => $companhia,
                 "actions" => $actions,
             );
         }
@@ -85,6 +180,9 @@ class AssociadoController extends Controller
         echo json_encode($response);
         exit;
     }
+    */
+
+
 
 
     public function create()

@@ -35,6 +35,7 @@
                                 <th>CPF</th>
                                 <th>Sexo</th>
                                 <th>Raça / Cor</th>
+                                <th>Companhia</th>
                                 <th>Ação</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                 <th>CPF</th>
                                 <th>Sexo</th>
                                 <th>Raça / Cor</th>
+                                <th>Companhia</th>
                                 <th>Ação</th>
                             </tr>
                         </tfoot>
@@ -97,6 +99,7 @@
                     { data: 'cpf' },
                     { data: 'sexo' },
                     { data: 'racacor' },
+                    { data: 'companhia' },
                     { data: 'actions'}
                 ],
                 language: {
