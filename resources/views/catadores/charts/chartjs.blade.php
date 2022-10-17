@@ -48,14 +48,18 @@
 
     <script>
 
-        var etinia = "{{ $etinia }}";
-        var associado = "{{ $associado }}";
+        //var etinia = <?php echo $etinia; ?>;
+        //var associado = <?php echo $associado; ?>;
+ 
 
+        var etinia = @php echo $etinia; @endphp;
+        var associado = @php echo $associado; @endphp;
+ 
         var barChartData = {
             labels: etinia,
             datasets: [{
                 label: 'Associado',
-                backgroundColor: "pink",
+                backgroundColor: "blue",   // ou um código de cor qualquer "#e3e3e3",
                 data: associado
             }]
         };
@@ -63,7 +67,7 @@
         window.onload = function() {
             var ctx = document.getElementById("canvas").getContext("2d");
             window.myBar = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',    // bar, pie, line, 
                 data: barChartData,
                 options: {
                     elements: {

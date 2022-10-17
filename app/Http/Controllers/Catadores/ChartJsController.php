@@ -13,6 +13,7 @@ use Carbon\Carbon;
 
 class ChartJsController extends Controller
 {
+    // Ref: https://www.nicesnippets.com/blog/laravel-8-charts-js-chart-example-tutorial
     public function index()
 
     {
@@ -28,12 +29,20 @@ class ChartJsController extends Controller
 
         //$etinia = ["amarela","branca","indigena","parda","preta"];
         $etinia = array('amarela','branca','indigena','parda','preta');
+        //$etinia = array("1","2","3","4","5");
+        
         $associado = [];
         foreach ($etinia as $key => $value) {
             //$associado[] = Associado::where(\DB::raw("DATE_FORMAT(created_at, '%Y')"),$value)->count();
             $associado[] = Associado::where("racacor", "=", $value)->count();
+            
         }
-    	return view('catadores.charts.chartjs')->with('etinia',json_encode($etinia))->with('associado',json_encode($associado,JSON_NUMERIC_CHECK));
+
+        
+        //return view('catadores.charts.chartjs')->with('etinia',json_encode($etinia))->with('associado',json_encode($associado,JSON_NUMERIC_CHECK));
+        return view('catadores.charts.chartjs')->with('etinia',json_encode($etinia, JSON_NUMERIC_CHECK))->with('associado',json_encode($associado,JSON_NUMERIC_CHECK));
+        
+        //**return view('chartjs')->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('user',json_encode($user,JSON_NUMERIC_CHECK));
 
     }
 
